@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card shadow">
+            <div class="card-header bg-warning text-dark">
+                <h5 class="mb-0">Editar Transacción</h5>
+            </div>
+            <div class="card-body">
+                <form method="POST">
+                    <div class="mb-3">
+                        <label class="form-label">Monto ($)</label>
+                        <input type="number" step="0.01" name="amount" class="form-control" value="{{ transaction.amount }}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Descripción</label>
+                        <input type="text" name="description" class="form-control" value="{{ transaction.description }}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Categoría</label>
+                        <select name="category" class="form-select" required>
+                            {% for cat in ['Alimentación', 'Transporte', 'Servicios', 'Entretenimiento', 'Salario', 'Otros'] %}
+                                <option value="{{ cat }}" {% if transaction.category == cat %}selected{% endif %}>{{ cat }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Tipo</label>
+                        <select name="type" class="form-select" required>
+                            <option value="Gasto" {% if transaction.type == 'Gasto' %}selected{% endif %}>Gasto</option>
+                            <option value="Ingreso" {% if transaction.type == 'Ingreso' %}selected{% endif %}>Ingreso</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Fecha</label>
+                        <input type="date" name="date" class="form-control" value="{{ transaction.date.strftime('%Y-%m-%d') }}" required>
+                    </div>
+                    <button type="submit" class="btn btn-warning w-100">Actualizar</button>
+                    <a href="{{ url_for('dashboard') }}" class="btn btn-secondary w-100 mt-2">Cancelar</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
